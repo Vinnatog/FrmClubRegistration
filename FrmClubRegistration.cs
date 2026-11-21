@@ -64,6 +64,9 @@ public partial class FrmClubRegistration : Form
     public int RegistrationID()
     {
         Count++;
+        ClubRegistrationQuery query = new ClubRegistrationQuery();
+        if (query.DisplayList())
+            Count = query.datatable.Rows.Count;
         return Count;
     }
 
