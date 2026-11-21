@@ -24,7 +24,7 @@ namespace FrmClubRegistration
 
         public ClubRegistrationQuery()
         {
-            connectionString = "Server=ANNEX-PC00;Database=ManzanoClubDB;User ID = manzano.414297; Password=123456; trustServerCertificate=true";
+            connectionString = "Server=DESKTOP-JG0361V\\SQLEXPRESS;Database=ManzanoClubDB; trustServerCertificate=true; Trusted_Connection=yes;";
             sqlConnect = new SqlConnection(connectionString);
             sqlCommand = new SqlCommand();
             sqlCommand.Connection = sqlConnect;
@@ -36,14 +36,14 @@ namespace FrmClubRegistration
         {
             try
             {
-               string ViewClubMembers = "SELECT StudentID, FirstName, MiddleName, LastName, Age, Gender, Program FROM ClubMembers";
+                string ViewClubMembers = "SELECT StudentID, FirstName, MiddleName, LastName, Age, Gender, Program FROM ClubMembers";
                 sqlConnect = new SqlConnection(connectionString);
                 sqlCommand = new SqlCommand(ViewClubMembers, sqlConnect);
                 sqlAdapter = new SqlDataAdapter(sqlCommand);
                 datatable = new DataTable();
                 datatable.Clear();
                 sqlAdapter.Fill(datatable);
-               
+
                 bindingSource = new BindingSource();
                 bindingSource.DataSource = datatable;
                 return true;
@@ -75,11 +75,33 @@ namespace FrmClubRegistration
             sqlConnect.Close();
             return true;
         }
-
-
-
-
-
+        public bool UpdateMember(long StudentID, string FirstName, string MiddleName, string LastName, int Age, string Gender, string Program)
+        {
+            try
+            {
+                sqlCommand = new SqlCommand("UPDATE ClubMembers SET FirstName=@FirstName, MiddleName=@MiddleName, " +
+                    "LastName=@LastName, Age=@Age, Gender=@Gender, Program=@Program WHERE StudentID=@StudentID", sqlConnect);
+                sqlCommand.Parameters.Add("@StudentID", SqlDbType.BigInt).Value = StudentID;
+                sqlCommand.Parameters.Add("@FirstName", SqlDbType.VarChar).Value = FirstName;
+                sqlCommand.Parameters.Add("@MiddleName", SqlDbType.VarChar).Value = MiddleName;
+                sqlCommand.Parameters.Add("@LastName", SqlDbType.VarChar).Value = LastName;
+                sqlCommand.Parameters.Add("@Age", SqlDbType.Int).Value = Age;
+                sqlCommand.Parameters.Add("@Gender", SqlDbType.VarChar).Value = Gender;
+                sqlCommand.Parameters.Add("@Program", SqlDbType.VarChar).Value = Program;
+                sqlConnect.Open();
+                return sqlCommand.ExecuteNonQuery() > 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            finally
+            {
+                sqlConnect.Close();
+            }
+        }
     }
-   
 }
+
+    
