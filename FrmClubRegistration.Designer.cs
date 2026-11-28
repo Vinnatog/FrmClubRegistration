@@ -331,7 +331,7 @@
             Controls.Add(label3);
             Controls.Add(panel1);
             Name = "FrmClubRegistration";
-            Text = "Form1";
+            Text = "Enrollment System";
             Load += FrmClubRegistration_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
