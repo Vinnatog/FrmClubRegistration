@@ -24,7 +24,7 @@ namespace FrmClubRegistration
 
         public ClubRegistrationQuery()
         {
-            connectionString = "Server=DESKTOP-JG0361V\\SQLEXPRESS;Database=ManzanoClubDB; trustServerCertificate=true; Trusted_Connection=yes;";
+            connectionString = "Server=ANNEX-PC00;Database=ManzanoClubDB;user id=manzano.414297;password=123456; trustServerCertificate=true;";
             sqlConnect = new SqlConnection(connectionString);
             sqlCommand = new SqlCommand();
             sqlCommand.Connection = sqlConnect;
